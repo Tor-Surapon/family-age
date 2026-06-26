@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>อายุครอบครัว</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #FDFAF5;
+    --warm-white: #F7F3EC;
+    --border: #E8E2D9;
+    --border-strong: #C8C0B4;
+    --text-primary: #1A1410;
+    --text-secondary: #5C5248;
+    --text-muted: #8C8278;
+    --accent: #C4601A;
+    --accent-light: #F0E6DC;
+    --accent-hover: #A84E12;
+    --blue: #2B5F8A;
+    --blue-light: #DCE8F2;
+    --green: #2E7D52;
+    --green-light: #DCF0E6;
+    --card-bg: #FFFFFF;
+    --shadow: 0 1px 3px rgba(26,20,16,0.07), 0 4px 12px rgba(26,20,16,0.04);
+    --shadow-lg: 0 4px 16px rgba(26,20,16,0.1), 0 8px 32px rgba(26,20,16,0.06);
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* Header */
+  .site-header {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .site-header .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
+  .site-header h1 { font-size: 22px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+  .site-header p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Main */
+  .main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* Members grid */
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .member-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .member-card.dad { border-top: 3px solid var(--accent); }
+  .member-card.mom { border-top: 3px solid var(--blue); }
+  .member-card.kid { border-top: 3px solid var(--green); }
+
+  .member-header { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .member-card.dad .avatar { background: var(--accent-light); }
+  .member-card.mom .avatar { background: var(--blue-light); }
+  .member-card.kid .avatar { background: var(--green-light); }
+  .member-label { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .member-sub { font-size: 12px; color: var(--text-muted); }
+  .remove-btn {
+    position: absolute; top: 12px; right: 12px;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-muted); font-size: 16px; line-height: 1;
+    padding: 3px 5px; border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .remove-btn:hover { color: #C0392B; background: #FDECEA; }
+
+  input[type="text"], input[type="date"] {
+    width: 100%; height: 36px; padding: 0 11px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius); background: var(--warm-white);
+    color: var(--text-primary); font-size: 14px;
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    outline: none; transition: border-color 0.15s, background 0.15s;
+  }
+  input:focus { border-color: var(--accent); background: #fff; }
+
+  /* Toolbar */
+  .toolbar { display: flex; gap: 10px; margin-bottom: 24px; align-items: center; }
+  .btn-add {
+    flex: 1; height: 40px;
+    background: var(--warm-white); border: 1px solid var(--border-strong);
+    border-radius: var(--radius); color: var(--text-secondary);
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: background 0.15s;
+  }
+  .btn-add:hover { background: var(--border); }
+  .btn-calc {
+    height: 40px; padding: 0 28px;
+    background: var(--accent); color: #fff; border: none;
+    border-radius: var(--radius);
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    box-shadow: 0 2px 8px rgba(196,96,26,0.25);
+  }
+  .btn-calc:hover { background: var(--accent-hover); }
+  .btn-calc:active { transform: scale(0.97); }
+
+  /* Results */
+  .results-section { display: none; flex-direction: column; gap: 16px; }
+  .results-section.show { display: flex; }
+
+  /* Summary card */
+  .summary-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .summary-card h2 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .summary-box { text-align: center; padding: 12px 8px; background: var(--warm-white); border-radius: var(--radius); }
+  .summary-num { font-size: 24px; font-weight: 600; color: var(--text-primary); }
+  .summary-lbl { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .next-bday-row { margin-top: 14px; font-size: 13px; color: var(--text-secondary); padding: 10px 12px; background: var(--accent-light); border-radius: var(--radius); border-left: 3px solid var(--accent); }
+  .next-bday-row strong { color: var(--accent); }
+
+  /* Result cards */
+  .result-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .rc-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px; border-bottom: 1px solid var(--border);
+  }
+  .rc-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .rc-avatar.dad { background: var(--accent-light); }
+  .rc-avatar.mom { background: var(--blue-light); }
+  .rc-avatar.kid { background: var(--green-light); }
+  .rc-info { flex: 1; }
+  .rc-name { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+  .rc-role { font-size: 12px; color: var(--text-muted); }
+  .rc-age { text-align: right; }
+  .rc-age-main { font-size: 24px; font-weight: 600; line-height: 1.1; }
+  .rc-age-main.dad-color { color: var(--accent); }
+  .rc-age-main.mom-color { color: var(--blue); }
+  .rc-age-main.kid-color { color: var(--green); }
+  .rc-age-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  .rc-body { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat-box { background: var(--warm-white); border-radius: var(--radius); padding: 10px 8px; text-align: center; }
+  .stat-num { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .next-row { font-size: 13px; color: var(--text-secondary); background: var(--warm-white); border-radius: var(--radius); padding: 9px 12px; }
+  .bday-row {
+    background: var(--green-light); color: var(--green);
+    border: 1px solid #A8D8BB; border-radius: var(--radius);
+    font-size: 13px; font-weight: 500; padding: 9px 12px;
+    text-align: center; display: none;
+  }
+  .bday-row.show { display: block; }
+
+  /* Candles row */
+  .candles { display: flex; flex-wrap: wrap; gap: 2px; min-height: 22px; }
+  .candle { font-size: 14px; animation: flicker 1.3s ease-in-out infinite alternate; }
+  .candle:nth-child(2n) { animation-delay: 0.4s; }
+  .candle:nth-child(3n) { animation-delay: 0.8s; }
+  @keyframes flicker { from { opacity: 1; } to { opacity: 0.6; transform: scale(0.9) rotate(-4deg); } }
+
+  /* Reset btn */
+  .btn-reset {
+    align-self: center; background: none; border: 1px solid var(--border-strong);
+    border-radius: var(--radius); padding: 8px 20px;
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    font-size: 13px; color: var(--text-muted); cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.15s;
+  }
+  .btn-reset:hover { background: var(--warm-white); }
+
+  @media (max-width: 480px) {
+    .members-grid { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: repeat(3,1fr); }
+    .stats-row { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <span class="emoji">🎂</span>
+  <h1>คำนวณอายุครอบครัว</h1>
+  <p>อัปเดตทุกครั้งที่เปิด</p>
+</header>
+
+<main class="main">
+  <div id="resultCards"></div>
+  <div class="summary-card" id="summaryCard" style="margin-top:12px"></div>
+</main>
+
+<script>
+  // ===== ข้อมูลครอบครัว (dd/mm/yyyy) =====
+  const FAMILY = [
+    { role: 'dad', name: 'พ่อ', emoji: '👨', dob: '3/12/1991' },
+    { role: 'mom', name: 'แม่', emoji: '👩', dob: '1/11/1992' },
+    { role: 'kid', name: 'ลูก', emoji: '🧒', dob: '15/10/2024' },
+  ];
+  // =========================================
+
+  function parseDMY(str) {
+    const [d, m, y] = str.split('/').map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  function calcAge(dob) {
+    const now = new Date();
+    let years = now.getFullYear() - dob.getFullYear();
+    let months = now.getMonth() - dob.getMonth();
+    let days = now.getDate() - dob.getDate();
+    if (days < 0) months--;
+    if (months < 0) { years--; months += 12; }
+    const totalDays = Math.floor((now - dob) / 86400000);
+    const totalMonths = years * 12 + months;
+    const totalWeeks = Math.floor(totalDays / 7);
+    const isBday = now.getMonth() === dob.getMonth() && now.getDate() === dob.getDate();
+    const nextBday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
+    if (nextBday <= now) nextBday.setFullYear(now.getFullYear() + 1);
+    const daysLeft = Math.ceil((nextBday - now) / 86400000);
+    return { years, months, totalDays, totalMonths, totalWeeks, isBday, daysLeft, nextBday };
+  }
+
+  function roleLabel(role) {
+    return role === 'dad' ? 'ผู้นำครอบครัว' : role === 'mom' ? 'หัวใจของบ้าน' : 'สมาชิกน้องใหม่';
+  }
+
+  function render() {
+    const results = FAMILY.map(m => ({
+      ...m,
+      ...calcAge(parseDMY(m.dob))
+    }));
+
+    const container = document.getElementById('resultCards');
+    container.innerHTML = '';
+    results.forEach(r => {
+      const colorClass = r.role === 'dad' ? 'dad-color' : r.role === 'mom' ? 'mom-color' : 'kid-color';
+      const ageText = r.months > 0 ? `${r.years} ปี ${r.months} เดือน` : `${r.years} ปี`;
+      const candles = Array.from({length: Math.min(r.years, 20)}, () => `<span class="candle">🕯️</span>`).join('');
+      const dobDate = parseDMY(r.dob);
+      const dobDisplay = dobDate.toLocaleDateString('th-TH', { day:'numeric', month:'long', year:'numeric' });
+      const div = document.createElement('div');
+      div.className = 'result-card';
+      div.style.marginBottom = '12px';
+      div.innerHTML = `
+        <div class="rc-header">
+          <div class="rc-avatar ${r.role}">${r.emoji}</div>
+          <div class="rc-info">
+            <div class="rc-name">${r.name}</div>
+            <div class="rc-role">${roleLabel(r.role)} · เกิด ${dobDisplay}</div>
+          </div>
+          <div class="rc-age">
+            <div class="rc-age-main ${colorClass}">${ageText}</div>
+            <div class="rc-age-sub">${r.totalDays.toLocaleString()} วันนับแต่เกิด</div>
+          </div>
+        </div>
+        <div class="rc-body">
+          <div class="bday-row ${r.isBday ? 'show' : ''}">🎉 สุขสันต์วันเกิด! Happy Birthday!</div>
+          ${candles ? `<div class="candles">${candles}</div>` : ''}
+          <div class="stats-row">
+            <div class="stat-box"><div class="stat-num">${r.totalMonths.toLocaleString()}</div><div class="stat-lbl">เดือนทั้งหมด</div></div>
+            <div class="stat-box"><div class="stat-num">${r.totalWeeks.toLocaleString()}</div><div class="stat-lbl">สัปดาห์</div></div>
+            <div class="stat-box"><div class="stat-num">${r.totalDays.toLocaleString()}</div><div class="stat-lbl">วันทั้งหมด</div></div>
+          </div>
+          <div class="next-row">${r.isBday ? '🎂 วันนี้เป็นวันเกิด!' : `วันเกิดครั้งต่อไปอีก ${r.daysLeft} วัน (${r.nextBday.toLocaleDateString('th-TH', { day:'numeric', month:'long' })})`}</div>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    // Summary
+    const avg = Math.round(results.reduce((s,r) => s + r.years, 0) / results.length);
+    const oldest = results.reduce((a,b) => a.years > b.years ? a : b);
+    const youngest = results.reduce((a,b) => a.years < b.years ? a : b);
+    const nextUp = [...results].sort((a,b) => a.daysLeft - b.daysLeft)[0];
+    document.getElementById('summaryCard').innerHTML = `
+      <h2>สรุปครอบครัว · ${results.length} คน</h2>
+      <div class="summary-grid">
+        <div class="summary-box"><div class="summary-num">${avg}</div><div class="summary-lbl">อายุเฉลี่ย (ปี)</div></div>
+        <div class="summary-box"><div class="summary-num">${oldest.years}</div><div class="summary-lbl">${oldest.name} (สูงสุด)</div></div>
+        <div class="summary-box"><div class="summary-num">${youngest.years}</div><div class="summary-lbl">${youngest.name} (น้อยสุด)</div></div>
+      </div>
+      <div class="next-bday-row">วันเกิดต่อไปในครอบครัว: <strong>${nextUp.name}</strong> อีก <strong>${nextUp.daysLeft} วัน</strong> (${nextUp.nextBday.toLocaleDateString('th-TH', { day:'numeric', month:'long' })})</div>
+    `;
+  }
+
+  render();
+</script>
+</body>
+</html>
